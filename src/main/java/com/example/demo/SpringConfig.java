@@ -1,6 +1,7 @@
 package com.example.demo;
 
 
+import com.example.demo.AOP.TimeTraceAop;
 import com.example.demo.repository.JDBCMemberRepository;
 import com.example.demo.repository.JDBCTemplateMemberRepository;
 import com.example.demo.repository.JPAMemberRepository;
@@ -15,29 +16,22 @@ import javax.sql.DataSource;
 
 @Configuration
 public class SpringConfig {
+    private final MemberRepository memberRepository;
 
-    private EntityManager em;
     @Autowired
-    public SpringConfig(EntityManager em){
-        this.em = em;
+    public SpringConfig(MemberRepository memberRepository){
+        this.memberRepository = memberRepository;
     }
-//    private DataSource dataSource;
-//    @Autowired
-//    public SpringConfig(DataSource dataSource){
-//        this.dataSource = dataSource;
-//    }
-
-
     @Bean
     public MemberService memberService(){
-        return new MemberService(memberRepository());
+        return new MemberService(memberRepository);
     }
 
-    @Bean
-    public MemberRepository memberRepository(){
-//        return new MemoryMemberRepository();
-//        return new JDBCMemberRepository(dataSource);
-//        return new JDBCTemplateMemberRepository(dataSource);
-        return new JPAMemberRepository(em);
-    }
+//    @Bean
+//    public MemberRepository memberRepository(){
+////        return new MemoryMemberRepository();
+////        return new JDBCMemberRepository(dataSource);
+////        return new JDBCTemplateMemberRepository(dataSource);
+//        return new JPAMemberRepository(em);
+//    }
 }
