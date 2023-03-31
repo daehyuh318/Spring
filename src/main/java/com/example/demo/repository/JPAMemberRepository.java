@@ -17,7 +17,7 @@ public class JPAMemberRepository implements MemberRepository{
 
     @Override
     public Member save(Member member) {
-        em.persist(member);
+//        em.persist(member);
         return member;
     }
 

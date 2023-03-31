@@ -7,60 +7,37 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
 public class test {
 
-    MemoryMemberRepository repository = new MemoryMemberRepository();
+    public class JDBCTests {
 
-    @AfterEach
-    public void afterEach(){
-        repository.clearStore();
-    }
+        // lombok 사용안하고 log작업을 할 경우
+        // private static final Logger logger = LoggerFactory.getLogger(JDBCTests.class);
 
-    @Test
-    public void save() {
-    Member member = new Member();
-    member.setName("spring");
-    repository.save(member);
 
-    Member result = repository.findById(member.getId()).get();
-        Assertions.assertEquals(result, member);
+        //@Ignore
+        @Test
+        public void testConnection() {
 
-        assertThat(member).isEqualTo(result);
-    }
+            String url = "jdbc:oracle:thin:@localhost:1521:xe";
+            String user = "book_ex";
+            String password = "1234";
 
-    @Test
-    public void findByName(){
-        Member member1 = new Member();
-        member1.setName("spring1");
-        repository.save(member1);
+            // try(AutoCloseable 인터페이스를 구현한 객체만 사용해서 자동으로 close() 메소드를 호출되게하는 기능 제공)
+            try (Connection con = DriverManager.getConnection(url, user, password)) {
 
-        Member member2 = new Member();
-        member2.setName("spring2");
-        repository.save(member2);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
 
-        Member result = repository.findByName("spring1").get();
-
-        assertThat(result).isEqualTo(member1);
+        }
 
     }
-    @Test
-    public void findAll(){
-        Member member1 = new Member();
-        member1.setName("spring1");
-        repository.save(member1);
-
-        Member member2 = new Member();
-        member2.setName("spring2");
-        repository.save(member2);
-
-        List<Member> result = repository.findAll();
-
-        assertThat(result.size()).isEqualTo(2);
-
-    }
-
 }

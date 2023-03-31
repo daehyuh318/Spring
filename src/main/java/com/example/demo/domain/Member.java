@@ -4,7 +4,10 @@ import javax.persistence.*;
 
 @Entity
 public class Member {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "s1")
+    @SequenceGenerator(name="s1", sequenceName = "s1", initialValue = 1, allocationSize = 1)
+
     private Long id;
     private String name;
 
