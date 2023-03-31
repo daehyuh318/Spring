@@ -1,16 +1,15 @@
 package com.example.demo.controllor;
 
 import com.example.demo.domain.Member;
-import com.example.demo.repository.MemoryMemberRepository;
 import com.example.demo.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -21,6 +20,21 @@ public class MemberController {
     @Autowired
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
+    }
+
+    @GetMapping(value = "/Api/members")
+    @ResponseBody
+    public List<Member> ApiMembers() {
+        List<Member> members = memberService.findAll();
+        return members;
+    }
+
+    @GetMapping("/Api/new")
+    @ResponseBody
+    public Long helloApi(@RequestParam("name") String name){
+        Member member = new Member();
+        member.setName(name);
+        return memberService.join(member);
     }
 
     @GetMapping(value = "/members/new")
@@ -36,7 +50,7 @@ public class MemberController {
         memberService.join(member);
         return "redirect:/";
     }
-
+    
     @GetMapping("/members")
     public String list(Model model){
         List<Member> members = memberService.findAll();
