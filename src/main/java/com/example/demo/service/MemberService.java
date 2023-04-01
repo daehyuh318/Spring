@@ -41,6 +41,7 @@ public class MemberService {
     /**
      * 회원 id 조회
      */
+
     private void validateDuplicateMember(Member member) { // 중복 회원 이름 확인
         memberRepository.findByName(member.getName()).ifPresent(member1 ->{
             throw new IllegalStateException("이미 존재하는 회원입니다.");
