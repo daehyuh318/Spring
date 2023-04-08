@@ -40,7 +40,7 @@ public class JPAMemberRepository implements MemberRepository {
 
     @Override
     public List<Member> findAll() {
-        List<Member> result =  em.createQuery("select m from Member m",Member.class)
+        List<Member> result =  em.createQuery("select m from Member m", Member.class)
                 .getResultList();
         return result;
     }
